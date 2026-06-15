@@ -15,8 +15,8 @@ const Navbar = () => {
   return (
     <nav style={styles.nav}>
       <div style={styles.logoContainer}>
-        <img src={spot.png} alt="Digital Showcase Logo" style={styles.logoImg} />
-        <h2 style={styles.logoText}>Digital Showcase</h2>
+        <img src={spot.png} alt="skill spotlight Logo" style={styles.logoImg} />
+        <h2 style={styles.logoText}>Skills Spotlight</h2>
       </div>
       <ul style={styles.links}>
         <li><Link to="/">Home</Link></li>
