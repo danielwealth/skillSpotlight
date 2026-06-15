@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/videos/';
+const API_URL = 'env.API_URL/api/videos/';
 
 export const getVideos = async () => {
   const res = await axios.get(API_URL);
