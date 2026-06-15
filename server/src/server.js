@@ -2,6 +2,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const cors = require('cors');
 
 // Load environment variables
 dotenv.config();
@@ -13,6 +14,10 @@ const app = express();
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
+app.use(cors({
+  origin: 'https://skillspotlight.netlify.app', // replace with your Netlify URL
+  credentials: true
+}));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
