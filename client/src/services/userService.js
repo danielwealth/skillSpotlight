@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'env.API_URL/api/users/';
+const API_URL = process.env.REACT_APP_API_URL + '/users/';
 
 export const getProfile = async () => {
   const token = localStorage.getItem('token');
