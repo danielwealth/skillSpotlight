@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL + '/videos/'; // for Vite
-// or process.env.REACT_APP_API_URL + '/videos/' for CRA
+// CRA requires REACT_APP_ prefix in .env
+// Example .env entry:
+// REACT_APP_API_URL=https://your-backend.onrender.com/api
+
+const API_URL = process.env.REACT_APP_API_URL + '/videos/';
 
 export const getVideos = async () => {
   const res = await axios.get(API_URL);
-  return res.data; // make sure this is an array if you plan to .map()
+  return res.data; // ensure this is an array if you plan to .map()
 };
 
 export const getVideoById = async (id) => {
