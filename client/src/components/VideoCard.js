@@ -1,16 +1,12 @@
 import React from 'react';
+import EditVideo from './EditVideo';
 
-const VideoCard = ({ video }) => {
-  // Extract video ID safely
+const VideoCard = ({ video, currentUserId, refreshVideos }) => {
   const getVideoId = (url) => {
     try {
       const urlObj = new URL(url);
-      if (urlObj.hostname.includes('youtu.be')) {
-        return urlObj.pathname.slice(1); // short link format
-      }
-      if (urlObj.searchParams.get('v')) {
-        return urlObj.searchParams.get('v'); // standard watch link
-      }
+      if (urlObj.hostname.includes('youtu.be')) return urlObj.pathname.slice(1);
+      if (urlObj.searchParams.get('v')) return urlObj.searchParams.get('v');
       return null;
     } catch {
       return null;
@@ -39,11 +35,12 @@ const VideoCard = ({ video }) => {
       )}
       <h3>{video.title}</h3>
       <p>{video.description}</p>
-       {video.user && video.user._id === currentUserId && (
-       <EditVideo video={video} onUpdated={refreshVideos} />
-       )}
 
+      {video.user && video.user._id === currentUserId && (
+        <EditVideo video={video} onUpdated={refreshVideos} />
+      )}
 
+      {/* uploader info */}
       {video.user && (
         <div style={styles.uploader}>
           <strong>Uploaded by:</strong> {video.user.email}
@@ -52,6 +49,7 @@ const VideoCard = ({ video }) => {
         </div>
       )}
 
+      {/* tags */}
       {video.tags?.length > 0 && (
         <div style={styles.tags}>
           {video.tags.map((tag, idx) => (
@@ -66,26 +64,10 @@ const VideoCard = ({ video }) => {
 };
 
 const styles = {
-  card: {
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '10px',
-    margin: '10px',
-    width: '320px',
-    textAlign: 'center',
-  },
-  uploader: {
-    marginTop: '10px',
-    fontSize: '0.9em',
-    color: '#555',
-  },
-  tags: {
-    marginTop: '10px',
-  },
-  tag: {
-    marginRight: '5px',
-    color: '#007bff',
-  },
+  card: { border: '1px solid #ddd', borderRadius: '8px', padding: '10px', margin: '10px', width: '320px', textAlign: 'center' },
+  uploader: { marginTop: '10px', fontSize: '0.9em', color: '#555' },
+  tags: { marginTop: '10px' },
+  tag: { marginRight: '5px', color: '#007bff' },
 };
 
 export default VideoCard;
