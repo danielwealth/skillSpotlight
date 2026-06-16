@@ -39,6 +39,10 @@ const VideoCard = ({ video }) => {
       )}
       <h3>{video.title}</h3>
       <p>{video.description}</p>
+       {video.user && video.user._id === currentUserId && (
+       <EditVideo video={video} onUpdated={refreshVideos} />
+       )}
+
 
       {video.user && (
         <div style={styles.uploader}>
