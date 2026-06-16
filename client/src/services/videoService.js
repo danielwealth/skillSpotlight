@@ -1,4 +1,3 @@
-// frontend/src/services/videoService.js
 import axios from 'axios';
 
 // CRA requires REACT_APP_ prefix in .env
@@ -11,7 +10,6 @@ const API_URL = `${process.env.REACT_APP_API_URL}/videos`;
 export const getVideos = async () => {
   try {
     const res = await axios.get(API_URL);
-    // Ensure we always return an array
     return Array.isArray(res.data) ? res.data : [];
   } catch (error) {
     console.error('Error fetching videos:', error);
@@ -43,6 +41,40 @@ export const uploadVideo = async (videoData) => {
     return res.data;
   } catch (error) {
     console.error('Error uploading video:', error);
+    throw error.response?.data || { message: 'Server error' };
+  }
+};
+
+// Update an existing video
+export const updateVideo = async (id, updates) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('No authentication token found');
+
+    const res = await axios.put(`${API_URL}/${id}`, updates, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error(`Error updating video ${id}:`, error);
+    throw error.response?.data || { message: 'Server error' };
+  }
+};
+
+// Delete a video
+export const deleteVideo = async (id) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('No authentication token found');
+
+    const res = await axios.delete(`${API_URL}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error(`Error deleting video ${id}:`, error);
     throw error.response?.data || { message: 'Server error' };
   }
 };
