@@ -37,3 +37,12 @@ export const uploadVideo = async (videoData) => {
     if (!token) throw new Error('No authentication token found');
 
     const res = await axios.post(API_URL, videoData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error('Error uploading video:', error);
+    throw error.response?.data || { message: 'Server error' };
+  }
+};
