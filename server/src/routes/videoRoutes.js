@@ -6,11 +6,19 @@ const { protect } = require('../middleware/authMiddleware');
 
 // Create new video (requires login)
 router.post('/', protect, createVideo);
+const {
+  getVideos,
+  getVideoById,
+  uploadVideo,
+  updateVideo,
+  deleteVideo,
+} = require('../controllers/videoController');
 
-// Get all videos
 router.get('/', getVideos);
-
-// Get single video by ID
 router.get('/:id', getVideoById);
+router.post('/', protect, uploadVideo);
+router.put('/:id', protect, updateVideo);
+router.delete('/:id', protect, deleteVideo);
+
 
 module.exports = router;
