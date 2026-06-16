@@ -8,6 +8,10 @@ const { protect } = require('../middleware/authMiddleware');
 // @route   GET /api/users/:id
 // @access  Private
 router.get('/:id', protect, getUserProfile);
+// backend/src/routes/userRoutes.js
+router.get('/me', protect, getUserProfile);
+router.put('/me', protect, updateUserProfile);
+
 
 // @desc    Update logged-in user's profile
 // @route   PUT /api/users/:id
