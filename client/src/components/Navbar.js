@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/spot.png';
+import logo from '../assets/logo.jpg';
 import { logout } from '../services/authService';
 
 const Navbar = () => {
@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav style={styles.nav}>
       <div style={styles.logoContainer}>
         <img src={logo} alt="skill spotlight Logo" style={styles.logoImg} />
-        <h2 style={styles.logoText}>Skills Spotlight</h2>
+        <h2 style={styles.logoText}>Skill Spotlight</h2>
       </div>
       <ul style={styles.links}>
         <li><Link to="/">Home</Link></li>
