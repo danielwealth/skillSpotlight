@@ -1,13 +1,8 @@
 // backend/src/models/Video.js
 const mongoose = require('mongoose');
 
-const VideoSchema = new mongoose.Schema(
+const videoSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
     title: {
       type: String,
       required: true,
@@ -15,20 +10,25 @@ const VideoSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      default: '',
+      required: true,
+      trim: true,
     },
     youtubeUrl: {
       type: String,
       required: true,
+      match: [/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/, 'Invalid YouTube URL'],
     },
-    tags: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+    tags: {
+      type: [String],
+      default: [],
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // link to uploader
+      required: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true } // adds createdAt & updatedAt
 );
 
-module.exports = mongoose.model('Video', VideoSchema);
+module.exports = mongoose.model('Video', videoSchema);
