@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -14,6 +15,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+         <ToastContainer position="top-right" autoClose={3000} />
           <Route path="/video" element={<VideoPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
