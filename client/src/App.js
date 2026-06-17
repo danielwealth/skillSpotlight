@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import UploadVideo from './pages/UploadVideo';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
+import VideoPage from './components/VideoPage';
+
 
 const App = () => {
   return (
