@@ -2,6 +2,18 @@ import axios from 'axios';
 
 const API_URL = `${process.env.REACT_APP_API_URL}/videos`;
 
+export const updateVideo = async (id, updates) => {
+  const token = localStorage.getItem('token');
+  if (!token) throw new Error('No authentication token found');
+
+  const res = await axios.put(`${API_URL}/${id}`, updates, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return res.data;
+};
+
+
 // Fetch all videos
 export const getVideos = async () => {
   try {
