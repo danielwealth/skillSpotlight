@@ -9,14 +9,12 @@ import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import VideoPage from './components/VideoPage';
 
-
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-         <ToastContainer position="top-right" autoClose={3000} />
-          <Route path="/video" element={<VideoPage />} />
+        <Route path="/video" element={<VideoPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
@@ -36,6 +34,8 @@ const App = () => {
           }
         />
       </Routes>
+      {/* ToastContainer must be outside Routes */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </Router>
   );
 };
