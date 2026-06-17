@@ -5,22 +5,27 @@ import VideoCard from './VideoCard';
 const VideoPage = () => {
   const [videos, setVideos] = useState([]);
 
+  const refreshVideos = async () => {
+    try {
+      const data = await getVideos();
+      setVideos(data);
+    } catch (err) {
+      console.error('Error refreshing videos:', err);
+    }
+  };
+
   useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const data = await getVideos();
-        setVideos(data);
-      } catch (err) {
-        console.error('Error loading videos:', err);
-      }
-    };
-    fetchVideos();
+    refreshVideos();
   }, []);
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       {videos.map((video) => (
-        <VideoCard key={video._id} video={video} />
+        <VideoCard
+          key={video._id}
+          video={video}
+          refreshVideos={refreshVideos}
+        />
       ))}
     </div>
   );
