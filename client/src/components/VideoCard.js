@@ -4,6 +4,7 @@ import EditVideo from './EditVideo';
 const VideoCard = ({ video, currentUserId, refreshVideos }) => {
   const getVideoId = (url) => {
     try {
+      if (!url) return null;
       const urlObj = new URL(url);
       if (urlObj.hostname.includes('youtu.be')) return urlObj.pathname.slice(1);
       if (urlObj.searchParams.get('v')) return urlObj.searchParams.get('v');
@@ -13,7 +14,7 @@ const VideoCard = ({ video, currentUserId, refreshVideos }) => {
     }
   };
 
-  const videoId = getVideoId(video.youtubeUrl);
+  const videoId = getVideoId(video?.youtubeUrl);
   const embedUrl = videoId
     ? `https://www.youtube-nocookie.com/embed/${videoId}`
     : null;
@@ -25,32 +26,31 @@ const VideoCard = ({ video, currentUserId, refreshVideos }) => {
           width="300"
           height="180"
           src={embedUrl}
-          title={video.title}
+          title={video?.title || 'Untitled'}
           frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
         ></iframe>
       ) : (
-        <p>Invalid YouTube link</p>
+        <p>Invalid or missing YouTube link</p>
       )}
-      <h3>{video.title}</h3>
-      <p>{video.description}</p>
 
-      {video.user && video.user._id === currentUserId && (
+      <h3>{video?.title || 'Untitled'}</h3>
+      <p>{video?.description || 'No description available'}</p>
+
+      {video?.user && video.user._id === currentUserId && (
         <EditVideo video={video} onUpdated={refreshVideos} />
       )}
 
-      {/* uploader info */}
-      {video.user && (
+      {video?.user && (
         <div style={styles.uploader}>
-          <strong>Uploaded by:</strong> {video.user.email}
+          <strong>Uploaded by:</strong> {video.user.email || 'Unknown'}
           {video.user.bio && <p>{video.user.bio}</p>}
           {video.user.location && <p>📍 {video.user.location}</p>}
         </div>
       )}
 
-      {/* tags */}
-      {video.tags?.length > 0 && (
+      {Array.isArray(video?.tags) && video.tags.length > 0 && (
         <div style={styles.tags}>
           {video.tags.map((tag, idx) => (
             <span key={idx} style={styles.tag}>
