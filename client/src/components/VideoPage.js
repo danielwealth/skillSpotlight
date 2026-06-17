@@ -8,7 +8,8 @@ const VideoPage = () => {
   const refreshVideos = async () => {
     try {
       const data = await getVideos();
-      setVideos(data);
+      console.log('Fetched videos:', data);
+      setVideos(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Error refreshing videos:', err);
     }
@@ -20,13 +21,17 @@ const VideoPage = () => {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {videos.map((video) => (
-        <VideoCard
-          key={video._id}
-          video={video}
-          refreshVideos={refreshVideos}
-        />
-      ))}
+      {Array.isArray(videos) && videos.length > 0 ? (
+        videos.map((video) => (
+          <VideoCard
+            key={video._id}
+            video={video}
+            refreshVideos={refreshVideos}
+          />
+        ))
+      ) : (
+        <p>No videos found.</p>
+      )}
     </div>
   );
 };
