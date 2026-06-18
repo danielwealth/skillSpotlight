@@ -17,6 +17,8 @@ const App = () => {
         <Route path="/video" element={<VideoPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+         <Route path="/my-video" element={<MyVideo />} />
+
         <Route
           path="/upload"
           element={
