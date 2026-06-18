@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { registerUser } from '../services/authService';
+import { register } from '../services/authService'; // ✅ keep service import
+import '../components/Register.css'; // optional styling
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -8,68 +9,137 @@ const Register = () => {
     password: '',
     bio: '',
     location: '',
-    updateVideo: '',
-    contacts: { email: '', phone: '', linkedin: '', github: '', whatsapp: '' }
+    contacts: '',
   });
   const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState('');
 
+  // ✅ Update state when typing
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // ✅ Simple validation rules
   const validate = () => {
     const newErrors = {};
-    if (formData.username.length < 3) newErrors.username = 'Username must be at least 3 characters';
-    if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Invalid email format';
-    if (formData.bio.length > 200) newErrors.bio = 'Bio cannot exceed 200 characters';
-    if (formData.location.length > 100) newErrors.location = 'Location cannot exceed 100 characters';
-    if (formData.updateVideo && !/^https?:\/\/.*$/.test(formData.updateVideo)) newErrors.updateVideo = 'Must be a valid URL';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (!formData.username.trim()) newErrors.username = 'Username is required';
+    if (!formData.email.match(/^\S+@\S+\.\S+$/)) newErrors.email = 'Enter a valid email';
+    if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    if (!formData.bio.trim()) newErrors.bio = 'Tell us something about yourself';
+    if (!formData.location.trim()) newErrors.location = 'Location is required';
+    if (!formData.contacts.trim()) newErrors.contacts = 'Provide at least one contact';
+    return newErrors;
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (['email','phone','linkedin','github','whatsapp'].includes(name)) {
-      setFormData({ ...formData, contacts: { ...formData.contacts, [name]: value } });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
+  // ✅ Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
-    try {
-      await registerUser(formData);
-      // redirect or show success
-    } catch (err) {
-      console.error(err);
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setSuccess('');
+    } else {
+      try {
+        setErrors({});
+        const res = await register(formData); // ✅ call service
+        setSuccess('🎉 Account created successfully!');
+        console.log('Registered user:', res);
+      } catch (err) {
+        setSuccess('');
+        setErrors({ api: err.message || 'Registration failed' });
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
-      {errors.username && <p>{errors.username}</p>}
+    <div className="register-card">
+      <h2>✨ Create Your Profile ✨</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>👤 Username</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            placeholder="Choose a cool username"
+            className="animated-input"
+          />
+          {errors.username && <p className="error">{errors.username}</p>}
+        </div>
 
-      <input name="email" value={formData.email} type="email" onChange={handleChange} placeholder="Email" />
-      {errors.email && <p>{errors.email}</p>}
+        <div className="form-group">
+          <label>📧 Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Enter your email"
+            className="animated-input"
+          />
+          {errors.email && <p className="error">{errors.email}</p>}
+        </div>
 
-      <input name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Password" />
+        <div className="form-group">
+          <label>🔒 Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Create a strong password"
+            className="animated-input"
+          />
+          {errors.password && <p className="error">{errors.password}</p>}
+        </div>
 
-      <input name="bio" value={formData.bio} onChange={handleChange} placeholder="Bio" />
-      {errors.bio && <p>{errors.bio}</p>}
+        <div className="form-group">
+          <label>📝 Bio</label>
+          <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleChange}
+            placeholder="Tell us about yourself..."
+            className="animated-input"
+          />
+          {errors.bio && <p className="error">{errors.bio}</p>}
+        </div>
 
-      <input name="location" value={formData.location} onChange={handleChange} placeholder="Location" />
-      {errors.location && <p>{errors.location}</p>}
+        <div className="form-group">
+          <label>📍 Location</label>
+          <input
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            placeholder="Where are you based?"
+            className="animated-input"
+          />
+          {errors.location && <p className="error">{errors.location}</p>}
+        </div>
 
-      <input name="updateVideo" value={formData.updateVideo} onChange={handleChange} placeholder="Profile Video URL" />
-      {errors.updateVideo && <p>{errors.updateVideo}</p>}
+        <div className="form-group">
+          <label>📱 Contacts</label>
+          <input
+            type="text"
+            name="contacts"
+            value={formData.contacts}
+            onChange={handleChange}
+            placeholder="Phone, social handle, etc."
+            className="animated-input"
+          />
+          {errors.contacts && <p className="error">{errors.contacts}</p>}
+        </div>
 
-      <input name="linkedin" value={formData.contacts.linkedin} onChange={handleChange} placeholder="LinkedIn" />
-      <input name="github" value={formData.contacts.github} onChange={handleChange} placeholder="GitHub" />
-      <input name="phone" value={formData.contacts.phone} onChange={handleChange} placeholder="Phone" />
-      <input name="whatsapp" value={formData.contacts.whatsapp} onChange={handleChange} placeholder="WhatsApp" />
-
-      <button type="submit">Register</button>
-    </form>
+        <button type="submit" className="register-btn">🚀 Register</button>
+      </form>
+      {errors.api && <p className="error">{errors.api}</p>}
+      {success && <p className="success">{success}</p>}
+    </div>
   );
 };
 
