@@ -17,10 +17,10 @@ const registerUser = async (req, res) => {
     const user = await User.create({ username, email, passwordHash });
 
     res.status(201).json({
-      _id: user.id,
+      _id: user._id,
       username: user.username,
       email: user.email,
-      token: generateToken(user.id),
+      token: generateToken(user._id),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -35,10 +35,10 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.passwordHash))) {
       res.json({
-        _id: user.id,
+        _id: user._id,
         username: user.username,
         email: user.email,
-        token: generateToken(user.id),
+        token: generateToken(user._id),
       });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
@@ -49,8 +49,8 @@ const loginUser = async (req, res) => {
 };
 
 // Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+const generateToken = (userId) => {
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
 module.exports = { registerUser, loginUser };
