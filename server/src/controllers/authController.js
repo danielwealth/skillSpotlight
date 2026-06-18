@@ -35,3 +35,8 @@ const registerUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = {
+  registerUser,
+  loginUser, // make sure you define this function too
+};
