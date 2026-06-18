@@ -15,7 +15,7 @@ const Navbar = () => {
   return (
     <nav style={styles.nav}>
       <div style={styles.logoContainer}>
-        <img src={logo} alt="skill spotlight Logo" style={styles.logoImg} />
+        <img src={logo} alt="Skill Spotlight Logo" style={styles.logoImg} />
         <h2 style={styles.logoText}>Skill Spotlight</h2>
       </div>
       <ul style={styles.links}>
@@ -26,7 +26,12 @@ const Navbar = () => {
           <>
             <li><Link to="/profile">My Profile</Link></li>
             <li><Link to="/upload">Upload</Link></li>
-            <li><button onClick={handleLogout} style={styles.logoutBtn}>Logout</button></li>
+            <li><Link to="/my-video">My Video</Link></li> {/* new link */}
+            <li>
+              <button onClick={handleLogout} style={styles.logoutBtn}>
+                Logout
+              </button>
+            </li>
           </>
         ) : (
           <>
@@ -40,12 +45,24 @@ const Navbar = () => {
 };
 
 const styles = {
-  nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#222', color: '#fff' },
+  nav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px',
+    background: '#222',
+    color: '#fff'
+  },
   logoContainer: { display: 'flex', alignItems: 'center', gap: '10px' },
   logoImg: { height: '40px' },
   logoText: { margin: 0 },
   links: { listStyle: 'none', display: 'flex', gap: '15px', alignItems: 'center' },
-  logoutBtn: { background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer' }
+  logoutBtn: {
+    background: 'transparent',
+    border: 'none',
+    color: '#fff',
+    cursor: 'pointer'
+  }
 };
 
 export default Navbar;
