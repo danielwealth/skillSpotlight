@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { register } from '../services/authService'; // ✅ keep service import
+import { registerUser } from '../services/authService'; // ✅ keep service import
 import '../components/Register.css'; // optional styling
 
 const Register = () => {
