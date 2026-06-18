@@ -1,0 +1,80 @@
+.register-card {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  animation: fadeIn 1s ease-in;
+}
+
+.register-card h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.animated-input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.animated-input:focus {
+  border-color: #6a11cb;
+  box-shadow: 0 0 8px rgba(106, 17, 203, 0.6);
+  outline: none;
+}
+
+textarea.animated-input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.register-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #2575fc, #6a11cb);
+}
+
+.error {
+  color: crimson;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+.success {
+  margin-top: 1rem;
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
