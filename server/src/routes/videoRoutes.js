@@ -7,12 +7,14 @@ const {
   getVideoById,
   uploadVideo,
   updateVideo,
-  deleteVideo,
+  deleteVideo
 } = require('../controllers/videoController');
 
-// Routes
+// Public
 router.get('/', getVideos);
 router.get('/:id', getVideoById);
+
+// Private
 router.post('/', protect, uploadVideo);
 router.put('/:id', protect, updateVideo);
 router.delete('/:id', protect, deleteVideo);
