@@ -49,7 +49,7 @@ const Register = () => {
       <input name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
       {errors.username && <p>{errors.username}</p>}
 
-      <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+      <input name="email" value={formData.email} type="email" onChange={handleChange} placeholder="Email" />
       {errors.email && <p>{errors.email}</p>}
 
       <input name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Password" />
