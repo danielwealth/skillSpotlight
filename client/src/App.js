@@ -8,6 +8,8 @@ import UploadVideo from './pages/UploadVideo';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import VideoPage from './components/VideoPage';
+import MyVideo from './components/MyVideo'; 
+
 
 const App = () => {
   return (
