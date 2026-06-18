@@ -6,7 +6,7 @@ const User = require('../models/User');
 // @access  Private
 const getUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id === 'me' ? req.user.id : req.params.id;
+    const userId = req.params.id === 'me' ? req.user._id : req.params.id;
     const user = await User.findById(userId).select('-passwordHash');
 
     if (!user) {
@@ -25,7 +25,7 @@ const getUserProfile = async (req, res) => {
 // @access  Private
 const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id === 'me' ? req.user.id : req.params.id;
+    const userId = req.params.id === 'me' ? req.user._id : req.params.id;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -36,14 +36,10 @@ const updateUserProfile = async (req, res) => {
     user.bio = req.body.bio ?? user.bio;
     user.location = req.body.location ?? user.location;
 
-    // Merge nested contacts instead of overwriting
+    // Merge nested contacts object
     user.contacts = {
-      ...user.contacts,
-      email: req.body.email ?? user.contacts?.email,
-      phone: req.body.phone ?? user.contacts?.phone,
-      linkedin: req.body.linkedin ?? user.contacts?.linkedin,
-      github: req.body.github ?? user.contacts?.github,
-      whatsapp: req.body.whatsapp ?? user.contacts?.whatsapp,
+      ...user.contacts?.toObject?.() || user.contacts || {},
+      ...req.body.contacts, // expects frontend to send { contacts: { email, phone, ... } }
     };
 
     const updatedUser = await user.save();
