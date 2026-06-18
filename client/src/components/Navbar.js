@@ -22,23 +22,20 @@ const Navbar = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/videos">Videos</Link></li>
 
-        {token ? (
-          <>
-            <li><Link to="/profile">My Profile</Link></li>
-            <li><Link to="/upload">Upload</Link></li>
-            <li><Link to="/my-video">My Video</Link></li> {/* new link */}
-            <li>
-              <button onClick={handleLogout} style={styles.logoutBtn}>
-                Logout
-              </button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/register">Register</Link></li>
-          </>
-        )}
+       {token ? (
+  <>
+    <li><Link to="/profile">My Profile</Link></li>
+    <li><Link to="/upload">Upload</Link></li>
+    <li><Link to="/my-video">My Video</Link></li> {/* New link */}
+    <li><button onClick={handleLogout} style={styles.logoutBtn}>Logout</button></li>
+  </>
+) : (
+  <>
+    <li><Link to="/login">Login</Link></li>
+    <li><Link to="/register">Register</Link></li>
+  </>
+)}
+
       </ul>
     </nav>
   );
