@@ -23,6 +23,8 @@ app.use(cors({
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/videos', require('./routes/videoRoutes'));
+app.use('/api/debug', require('./routes/debugRoutes'));
+
 
 // Root endpoint
 app.get('/', (req, res) => {
